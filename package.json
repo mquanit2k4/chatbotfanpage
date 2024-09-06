@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "description": "chatbot support students register my course",
-  "main": "server.js",
+  "main": "./src/server.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/server.mjs"
+    "start": "nodemon --exec babel-node ./src/server.mjs"
   },
   "author": "Vu Minh Quan",
   "license": "ISC",
