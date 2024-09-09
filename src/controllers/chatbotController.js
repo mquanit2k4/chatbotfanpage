@@ -140,7 +140,7 @@ function callSendAPI(sender_psid, response) {
   request(
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { "access_token": PAGE_ACCESS_TOKEN },
+      qs: { access_token: PAGE_ACCESS_TOKEN },
       method: "POST",
       json: request_body,
     },
@@ -164,8 +164,8 @@ let setupProfile = async (req, res) => {
   // Send the HTTP request to the Messenger Platform
   await request(
     {
-      uri: `https://graph.facebook.com/v20.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
-      qs: { "access_token": PAGE_ACCESS_TOKEN },
+      uri: `https://graph.facebook.com/v20.0/me/messenger_profile?access_token=EAAOu9I4yDOIBOwD8T5ca3bZCZBMhfamZC9XLLEeNtpTlR2132uMvTORDdy0u7WNI93Wat9LQ17FnZCiQUiunfY50R5oK5zzW5a3MSwMxTe9u5LOxRNE65EqRhBv7E6ZCUXkfV2MLRFAOn2NVZCedV4BV0NjiFBICutIFKqVZCL96Mwef5XMes8EmuICk2ODluEk`,
+      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
       method: "POST",
       json: request_body,
     }, (err, res, body) => {
