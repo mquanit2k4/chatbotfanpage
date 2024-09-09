@@ -5,12 +5,10 @@ const verifyToken = process.env.VERIFY_TOKEN;
 
 dotenv.config();
 let getHomepage = (req, res) => {
-  return res.send("Xin chao");
+  return res.render('homepage.ejs');
 };
 
-// module.exports = {
-//         ơgetHomepage: getHomepage
-// };
+
 let postWebhook = (req, res) => {
   // Parse the request body from the POST
   let body = req.body;
@@ -153,8 +151,34 @@ function callSendAPI(sender_psid, response) {
     }
   );
 }
+let setupProfile = (req, res) => {
+   // Call Profile API Facebook
+   let request_body = {
+    "get_started": { "payload": "GET_STARTED" },
+    "whitelisted_domains": ["https://chatbotfanpage.onrender.com"],
+    }
+  
+
+  // Send the HTTP request to the Messenger Platform
+  request(
+    {
+      uri: `https://graph.facebook.com/v20.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    }, (err, res, body) => {
+      if (!err) {
+        console.log(body);
+        console.log("Setup user profile success!")
+      } else {
+        console.error("Unable to Setup user profile:" + err);
+      }
+    });
+}
+
 export default {
   getHomepage,
   getWebhook,
   postWebhook,
+  setupProfile
 };
