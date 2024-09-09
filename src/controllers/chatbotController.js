@@ -131,16 +131,16 @@ function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     recipient: {
-      id: sender_psid,
+      id: sender_psid
     },
-    message: response,
+    message: response
   };
 
   // Send the HTTP request to the Messenger Platform
   request(
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { access_token: PAGE_ACCESS_TOKEN },
+      qs: { "access_token": PAGE_ACCESS_TOKEN },
       method: "POST",
       json: request_body,
     },
@@ -153,19 +153,19 @@ function callSendAPI(sender_psid, response) {
     }
   );
 }
-let setupProfile =async (req, res) => {
+let setupProfile = async (req, res) => {
    // Call Profile API Facebook
    let request_body = {
     "get_started": { "payload": "GET_STARTED" },
     "whitelisted_domains": ["https://chatbotfanpage.onrender.com"],
-    }
+    };
   
 
   // Send the HTTP request to the Messenger Platform
   await request(
     {
       uri: `https://graph.facebook.com/v20.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
-      qs: { access_token: PAGE_ACCESS_TOKEN },
+      qs: { "access_token": PAGE_ACCESS_TOKEN },
       method: "POST",
       json: request_body,
     }, (err, res, body) => {
