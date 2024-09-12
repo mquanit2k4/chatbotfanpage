@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const verifyToken = process.env.VERIFY_TOKEN;
-
+const fetch = require('node-fetch');
 dotenv.config();
 let getHomepage = (req, res) => {
   return res.render("homepage.ejs");
@@ -68,7 +68,8 @@ function handleMessage(sender_psid, received_message) {
   // Checks if the message contains text
   // Check words
   if (received_message.text === "casio") {
-    // Create the payload for a basic text message, which
+    if (received_message.text.toLowerCase() === "casio"){
+        // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = [
       // Nếu nhiều tin nhắn phải tạo mảng các tin nhắn
@@ -85,6 +86,13 @@ function handleMessage(sender_psid, received_message) {
         text: `Học phí của khóa hiện tại là 200k nhưng nếu em muốn nhận voucher giảm giá chỉ còn 150K thì làm theo các bước like và share trong post này https://www.facebook.com/dobknhe/posts/491015820355603 và cap lại màn hình gửi cho ad nhaa ❤️`,
       },
     ];
+    } else {
+      // Trả lời khi không phải từ khóa "casio"
+      response = {
+        "text": `Bạn vừa gửi: "${received_message.text}". Tôi không chắc chắn về từ khóa này, bạn có thể thử lại!`
+      };
+    }
+    
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -129,6 +137,21 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
+  switch (payload) {
+    case "yes":
+      response = { text: "Thanks!" };
+      break;
+    case "no":
+      response = { text: "Oops, try sending another image." };
+      break;
+    case "GET_STARTED":
+      response = {
+        text: "Em vui lòng nhắn 'casio' để được tư vấn chi tiết về khóa học nhé <3",
+      };
+      break;
+    default:
+      response = { text: `Oops! I don't know response with postback ${payload}` };
+
   if (payload === "yes") {
     response = { text: "Thanks!" };
   } else if (payload === "no") {
