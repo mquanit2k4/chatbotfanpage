@@ -117,8 +117,8 @@ function handleMessage(sender_psid, received_message) {
     };
   }
 
-  // Send the response message
-  callSendAPI(sender_psid, response);
+  // Gọi hàm để gửi từng tin nhắn một
+  sendMessages(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
@@ -142,8 +142,18 @@ function handlePostback(sender_psid, received_postback) {
   callSendAPI(sender_psid, response);
 }
 
+
+function sendMessages(sender_psid, messages) {
+  if (messages.length === 0) return;
+
+  let message = messages[0]; // Lấy tin nhắn đầu tiên
+  callSendAPI(sender_psid, message, () => {
+    // Gọi hàm đệ quy để gửi tin nhắn tiếp theo
+    sendMessages(sender_psid, messages.slice(1));
+  });
+}
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+function callSendAPI(sender_psid, respons, callback) {
   // Construct the message body
   let request_body = {
     recipient: {
@@ -163,6 +173,7 @@ function callSendAPI(sender_psid, response) {
     (err, res, body) => {
       if (!err) {
         console.log("message sent!");
+        if (callback) callback(); // Gọi callback khi tin nhắn được gửi xong
       } else {
         console.error("Unable to send message:" + err);
       }
