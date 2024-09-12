@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const IMAGE_GET_STARTED = `https://bit.ly/imagestarted`;
 const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  };
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 dotenv.config();
 let callSendAPI = (sender_psid, response) => {
   // Construct the message body
@@ -66,7 +66,7 @@ let handleGerStarted = (sender_psid) => {
       let response2 = getStartedTemplate();
       // Send text message
       await callSendAPI(sender_psid, response1);
-
+      await sleep(1000);
       // Send template message
       await callSendAPI(sender_psid, response2);
       resolve("done");
@@ -114,7 +114,6 @@ let handleSendInfoCourseSingle = (sender_psid) => {
         text: `Học phí của khóa hiện tại là 200k nhưng nếu em muốn nhận voucher giảm giá chỉ còn 150K thì làm theo các bước like và share trong post này https://www.facebook.com/dobknhe/posts/491015820`,
       };
 
-
       let response2 = {
         text: `Khi tham gia khoá học e không chỉ được học các phương pháp giải nhanh + CASIO các dạng bài trong đề thi THPTQG mà còn được ôn luyện các đề thi thử của Trường, Sở qua các buổi LIVE hằng tuần để phục vụ cho kì thi THPTQG 2025 luôn nha. Khoá này kéo dài đến lúc cb thi xong kì thi THPT luôn nhé 🥰`,
       };
@@ -127,22 +126,22 @@ let handleSendInfoCourseSingle = (sender_psid) => {
         text: `Song song với việc học các phương pháp qua VIDEO và học LIVE hằng tuần trong group kín. Các bạn còn được giải đáp thắc mắc đối với các bài tập có thể sử dụng CASIO được thông qua việc tham gia box chat có sự hỗ trợ bởi chính admin và các anh chị CTV 2k5, 2k6 có thành tích xuất sắc ✨`,
       };
 
-      //   let response5 = getInfoCourseTemplate();
-      //   // Send text message
-      //   await callSendAPI(sender_psid, response);
-      await callSendAPI(sender_psid, response3);
-      console.log('Sent response1');
-      await sleep(1000); 
-      await callSendAPI(sender_psid, response2);
-      console.log('Sent response1');
-      await sleep(1000); 
-      await callSendAPI(sender_psid, response4);
-      console.log('Sent response1');
-      await sleep(1000); 
-      await callSendAPI(sender_psid, response1);
-      console.log('Sent response1');
-      await sleep(1000); 
+      let response5 = getInfoCourseTemplateTHPT();
+      // Send text message
 
+      await callSendAPI(sender_psid, response3);
+      console.log("Sent response1");
+      await sleep(1000);
+      await callSendAPI(sender_psid, response2);
+      console.log("Sent response1");
+      await sleep(1000);
+      await callSendAPI(sender_psid, response4);
+      console.log("Sent response1");
+      await sleep(1000);
+      await callSendAPI(sender_psid, response1);
+      console.log("Sent response1");
+      await sleep(1000);
+      await callSendAPI(sender_psid, response5);
       resolve("done");
     } catch (e) {
       reject(e);
@@ -150,9 +149,38 @@ let handleSendInfoCourseSingle = (sender_psid) => {
   });
 };
 
-let getInfoCourseTemplate = () => {};
+let getInfoCourseTemplateTHPT = () => {
+  let response = {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "button",
+        text: "Còn đây là review về khóa học của các anh chị khóa 2K6 nha em: https://docs.google.com/spreadsheets/d/1SWhkhDn_wqQ8BoNxmhSnwXQgiSMprUXcQvVMtfydExY/edit?usp=sharing. Hiện tại khóa CASIO VD-VDC THPT đang được sale từ 200k chỉ còn 150k áp dụng hết tháng 9 này thui nhaa💥",
+        buttons: [
+          {
+            type: "postback",
+            title: "Tư vấn thêm giúp em",
+            payload: "THPT_DETAIL",
+          },
+          {
+            type: "postback",
+            title: "Đăng ký luôn 💕",
+            payload: "REGISTER_THPT",
+          },
+          {
+            type: "web_url",
+            url: "https://bit.ly/thanhtich2k6",
+            title: "Thành tích khóa 2K6",
+          },
+        ],
+      },
+    },
+  };
+  return response;
+};
 export default {
   handleGerStarted,
   callSendAPI,
   handleSendInfoCourseSingle,
+  getInfoCourseTemplateTHPT,
 };
