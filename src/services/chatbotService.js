@@ -31,7 +31,7 @@ let request_body = {
 }
 
 let getUserName = (sender_psid) => {
-    return new Promise(resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // Send the HTTP request to the Messenger Platform
      request(
         {
@@ -50,7 +50,7 @@ let getUserName = (sender_psid) => {
           }
         }
       );   
-}
+});
 }
 let handleGerStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
