@@ -152,15 +152,7 @@ function handlePostback(sender_psid, received_postback) {
     default:
       response = { text: `Oops! I don't know response with postback ${payload}` };
 
-  if (payload === "yes") {
-    response = { text: "Thanks!" };
-  } else if (payload === "no") {
-    response = { text: "Oops, try sending another image." };
-  } else if (payload === "GET_STARTED") {
-    response = {
-      text: "Em vui lòng nhắn 'casio' để được tư vấn chi tiết về khóa học nhé <3",
-    };
-  }
+}     
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response); 
 }
