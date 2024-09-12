@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 dotenv.config();
-let callSendAPI = (response) => {
+let callSendAPI = (sender_psid, response) => {
 // Construct the message body
 let request_body = {
     recipient: {
@@ -30,13 +30,13 @@ let request_body = {
   );   
 }
 
-let handleGerStarted = () => {
+let handleGerStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {
                 text: "Em vui lòng nhắn 'casio' để được tư vấn chi tiết về khóa học nhé <3",
               };
-            await callSendAPI(response);
+            await callSendAPI(sender_psid, response);
             resolve('done');
         } catch (e) {   
             reject(e);
