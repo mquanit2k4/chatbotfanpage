@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const verifyToken = process.env.VERIFY_TOKEN;
-const fetch = require('node-fetch');
+
 dotenv.config();
 let getHomepage = (req, res) => {
   return res.render("homepage.ejs");
