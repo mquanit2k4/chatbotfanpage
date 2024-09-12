@@ -139,19 +139,19 @@ function handlePostback(sender_psid, received_postback) {
     };
   }
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  callSendAPI(sender_psid, response); 
 }
 
 
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, respons, callback) {
+function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     recipient: {
       id: sender_psid,
     },
-    message: response,
+    message: response,  
   };
 
   // Send the HTTP request to the Messenger Platform
