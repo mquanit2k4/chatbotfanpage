@@ -5,9 +5,8 @@ const verifyToken = process.env.VERIFY_TOKEN;
 
 dotenv.config();
 let getHomepage = (req, res) => {
-  return res.render('homepage.ejs');
+  return res.render("homepage.ejs");
 };
-
 
 let postWebhook = (req, res) => {
   // Parse the request body from the POST
@@ -65,67 +64,83 @@ let getWebhook = (req, res) => {
 
 function handleMessage(sender_psid, received_message) {
   let response = [];
-  
+
   // Checks if the message contains text
-  // Check words 
-  if (received_message.text === "casio") {    
+  // Check words
+  if (received_message.text === "casio") {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = [
       // Nếu nhiều tin nhắn phải tạo mảng các tin nhắn
-      {"text": `Chào em, admin xin giới thiệu tổng quan về khóa CASIO VD-VDC THPT 2K7 đến em: Khóa học sẽ cung cấp cho các bạn tất cả các phương pháp bấm máy + cách tư duy bản chất để làm các dạng toán từ mức VD (vận dụng, mức 8+ THPTQG) đến VDC (vận dụng cao, mức 9+ THPTQG) ở tất cả các chương trong chương trình Toán 12 (theo chuẩn chương trình mới). Có VIDEO + FILE hướng dẫn chi tiết phương pháp và bài tập kèm theo để các bạn luyện tập và nắm vững phương pháp làm bài. Để biết thêm thông tin em có thể xem ở bài viết https://www.facebook.com/dobknhe/posts/491015820355603 này nha 💕`},
-      {"text": `Khi tham gia khoá học e không chỉ được học các phương pháp giải nhanh + CASIO các dạng bài trong đề thi THPTQG mà còn được ôn luyện các đề thi thử của Trường, Sở qua các buổi LIVE hằng tuần để phục vụ cho kì thi THPTQG 2025 luôn nha. Khoá này kéo dài đến lúc cb thi xong kì thi THPT luôn nhé 🥰`},
-      {"text": `Song song với việc học các phương pháp qua VIDEO và học LIVE hằng tuần trong group kín. Các bạn còn được giải đáp thắc mắc đối với các bài tập có thể sử dụng CASIO được thông qua việc tham gia box chat có sự hỗ trợ bởi chính admin và các anh chị CTV 2k5, 2k6 có thành tích xuất sắc ✨`},
-      {"text": `Học phí của khóa hiện tại là 200k nhưng nếu em muốn nhận voucher giảm giá chỉ còn 150K thì làm theo các bước like và share trong post này https://www.facebook.com/dobknhe/posts/491015820355603 và cap lại màn hình gửi cho ad nhaa ❤️`},
-    ]
+      {
+        text: `Chào em, admin xin giới thiệu tổng quan về khóa CASIO VD-VDC THPT 2K7 đến em: Khóa học sẽ cung cấp cho các bạn tất cả các phương pháp bấm máy + cách tư duy bản chất để làm các dạng toán từ mức VD (vận dụng, mức 8+ THPTQG) đến VDC (vận dụng cao, mức 9+ THPTQG) ở tất cả các chương trong chương trình Toán 12 (theo chuẩn chương trình mới). Có VIDEO + FILE hướng dẫn chi tiết phương pháp và bài tập kèm theo để các bạn luyện tập và nắm vững phương pháp làm bài. Để biết thêm thông tin em có thể xem ở bài viết https://www.facebook.com/dobknhe/posts/491015820355603 này nha 💕`,
+      },
+      {
+        text: `Khi tham gia khoá học e không chỉ được học các phương pháp giải nhanh + CASIO các dạng bài trong đề thi THPTQG mà còn được ôn luyện các đề thi thử của Trường, Sở qua các buổi LIVE hằng tuần để phục vụ cho kì thi THPTQG 2025 luôn nha. Khoá này kéo dài đến lúc cb thi xong kì thi THPT luôn nhé 🥰`,
+      },
+      {
+        text: `Song song với việc học các phương pháp qua VIDEO và học LIVE hằng tuần trong group kín. Các bạn còn được giải đáp thắc mắc đối với các bài tập có thể sử dụng CASIO được thông qua việc tham gia box chat có sự hỗ trợ bởi chính admin và các anh chị CTV 2k5, 2k6 có thành tích xuất sắc ✨`,
+      },
+      {
+        text: `Học phí của khóa hiện tại là 200k nhưng nếu em muốn nhận voucher giảm giá chỉ còn 150K thì làm theo các bước like và share trong post này https://www.facebook.com/dobknhe/posts/491015820355603 và cap lại màn hình gửi cho ad nhaa ❤️`,
+      },
+    ];
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
     response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Đây có phải bức ảnh của bạn không?",
-            "subtitle": "Nhấn nút ở dưới để trả lời.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Có!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "Không!",
-                "payload": "no",
-              }
-            ],
-          }]
-        }
-      }
-    }
-  } 
-  
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [
+            {
+              title: "Đây có phải bức ảnh của bạn không?",
+              subtitle: "Nhấn nút ở dưới để trả lời.",
+              image_url: attachment_url,
+              buttons: [
+                {
+                  type: "postback",
+                  title: "Có!",
+                  payload: "yes",
+                },
+                {
+                  type: "postback",
+                  title: "Không!",
+                  payload: "no",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+  }
+
   // Send the response message
-  callSendAPI(sender_psid, response);    
+  responses.forEach((response, index) => {
+    setTimeout(() => {
+      callSendAPI(sender_psid, response);
+    }, index * 1000); // Delay each message by 1 second to avoid rate limiting
+  });
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let response;
-  
+
   // Get the payload for the postback
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
-  } else if (payload === 'GET_STARTED') {
-    response = { "text": "Em vui lòng nhắn 'casio' để được tư vấn chi tiết về khóa học nhé <3" }
+  if (payload === "yes") {
+    response = { text: "Thanks!" };
+  } else if (payload === "no") {
+    response = { text: "Oops, try sending another image." };
+  } else if (payload === "GET_STARTED") {
+    response = {
+      text: "Em vui lòng nhắn 'casio' để được tư vấn chi tiết về khóa học nhé <3",
+    };
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -136,9 +151,9 @@ function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     recipient: {
-      id: sender_psid
+      id: sender_psid,
     },
-    message: response
+    message: response,
   };
 
   // Send the HTTP request to the Messenger Platform
@@ -159,12 +174,11 @@ function callSendAPI(sender_psid, response) {
   );
 }
 let setupProfile = async (req, res) => {
-   // Call Profile API Facebook
-   let request_body = {
-    "get_started": { "payload": "GET_STARTED" },
-    "whitelisted_domains": ["https://chatbotfanpage.onrender.com"],
-    };
-  
+  // Call Profile API Facebook
+  let request_body = {
+    get_started: { payload: "GET_STARTED" },
+    whitelisted_domains: ["https://chatbotfanpage.onrender.com"],
+  };
 
   // Send the HTTP request to the Messenger Platform
   await request(
@@ -174,21 +188,23 @@ let setupProfile = async (req, res) => {
       qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
       method: "POST",
       json: request_body,
-    }, (err, res, body) => {
+    },
+    (err, res, body) => {
       if (!err) {
         console.log(body);
-        console.log("Setup user profile success!")
+        console.log("Setup user profile success!");
       } else {
         console.error("Unable to Setup user profile:" + err);
       }
-    });
+    }
+  );
 
-    return res.send("Setup user profile success!");
-}
+  return res.send("Setup user profile success!");
+};
 
 export default {
   getHomepage,
   getWebhook,
   postWebhook,
-  setupProfile
+  setupProfile,
 };
