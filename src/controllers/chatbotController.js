@@ -118,11 +118,7 @@ function handleMessage(sender_psid, received_message) {
   }
 
   // Send the response message
-  responses.forEach((response, index) => {
-    setTimeout(() => {
-      callSendAPI(sender_psid, response);
-    }, index * 1000); // Delay each message by 1 second to avoid rate limiting
-  });
+  callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
