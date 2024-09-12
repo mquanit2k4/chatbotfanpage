@@ -36,7 +36,7 @@ let handleGerStarted = () => {
             let response = {
                 text: "Em vui lòng nhắn 'casio' để được tư vấn chi tiết về khóa học nhé <3",
               };
-            await this.callSendAPI(response);
+            await callSendAPI(response);
             resolve('done');
         } catch (e) {   
             reject(e);
