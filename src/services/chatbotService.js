@@ -362,10 +362,10 @@ let handleSendDetailCourse = (sender_psid) => {
       };
 
       await callSendAPI(sender_psid, response1);
-      await sleep(2000);
+      await sleep(3000);
 
       await callSendAPI(sender_psid, response2);
-      await sleep(2000);
+      await sleep(3000);
 
       await callSendAPI(sender_psid, response3);
       await sleep(2000);

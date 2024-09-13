@@ -138,10 +138,10 @@ async function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   switch (payload) {
     case "yes":
-      response = { text: "Thanks!" };
+      response = { text: "Em chờ admin xác nhận lại bill nha <3" };
       break;
     case "no":
-      response = { text: "Oops, try sending another image." };
+      response = { text: "Em vui lòng gửi đúng bill chuyển khoản nhé!." };
       break;
     case "GET_STARTED":
       await chatbotService.handleGerStarted(sender_psid);
