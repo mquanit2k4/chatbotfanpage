@@ -36,57 +36,55 @@ let callSendAPI = async (sender_psid, response) => {
 };
 
 let sendTypingOn = (sender_psid) => {
-    // Construct the message body
-    let request_body = {
-        recipient: {
-            id: sender_psid,
-        },
-        sender_action: "typing_on",
-    };
-    request(
-        {
-          uri: "https://graph.facebook.com/v9.0/me/messages",
-          qs: { access_token: PAGE_ACCESS_TOKEN },
-          method: "POST",
-          json: request_body,
-        },
-        (err, res, body) => {
-          if (!err) {
-            console.log("sendTypingOn sent!");
-          } else {
-            console.error("Unable to send sendTypingOn:" + err);
-          }
-        }
-      );
-    };
-
+  // Construct the message body
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    sender_action: "typing_on",
+  };
+  request(
+    {
+      uri: "https://graph.facebook.com/v9.0/me/messages",
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("sendTypingOn sent!");
+      } else {
+        console.error("Unable to send sendTypingOn:" + err);
+      }
+    }
+  );
+};
 
 let sendMarkReadMessage = (sender_psid) => {
-        // Construct the message body
-        let request_body = {
-            recipient: {
-                id: sender_psid,
-            },
-            sender_action: "mark_seen",
-        };
-        request(
-            {
-              uri: "https://graph.facebook.com/v9.0/me/messages",
-              qs: { access_token: PAGE_ACCESS_TOKEN },
-              method: "POST",
-              json: request_body,
-            },
-            (err, res, body) => {
-              if (!err) {
-                console.log("sendMarkReadMessage sent!");
-              } else {
-                console.error("Unable to send sendMarkReadMessage:" + err);
-              }
-            }
-          );
-    };
+  // Construct the message body
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    sender_action: "mark_seen",
+  };
+  request(
+    {
+      uri: "https://graph.facebook.com/v9.0/me/messages",
+      qs: { access_token: PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("sendMarkReadMessage sent!");
+      } else {
+        console.error("Unable to send sendMarkReadMessage:" + err);
+      }
+    }
+  );
+};
 
-    
 let getUserName = (sender_psid) => {
   return new Promise((resolve, reject) => {
     // Send the HTTP request to the Messenger Platform
@@ -120,7 +118,7 @@ let handleGerStarted = (sender_psid) => {
       let response2 = getStartedTemplate();
       // Send text message
       await callSendAPI(sender_psid, response1);
-      await sleep(1000);
+      await sleep(2000);
       // Send template message
       await callSendAPI(sender_psid, response2);
       resolve("done");
@@ -185,16 +183,16 @@ let handleSendInfoCourseSingle = (sender_psid) => {
 
       await callSendAPI(sender_psid, response3);
       console.log("Sent response1");
-      await sleep(1000);
+      await sleep(2000);
       await callSendAPI(sender_psid, response2);
       console.log("Sent response1");
-      await sleep(1000);
+      await sleep(2000);
       await callSendAPI(sender_psid, response4);
       console.log("Sent response1");
-      await sleep(1000);
+      await sleep(2000);
       await callSendAPI(sender_psid, response1);
       console.log("Sent response1");
-      await sleep(1000);
+      await sleep(2000);
       await callSendAPI(sender_psid, response5);
       resolve("done");
     } catch (e) {
@@ -233,28 +231,69 @@ let getInfoCourseTemplateTHPT = () => {
   return response;
 };
 
+let getHSAInfoImage = () => {
+  let response = {
+    attachment: {
+      type: "image",
+      payload: {
+        url: "https://bit.ly/hsaview",
+        is_reusable: true,
+      },
+    },
+  };
+  return response;
+};
 let handleSendInfoCourseCombo = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // Send text
       let response1 = {
-        text: `Khi tham gia thêm khóa bổ trợ HSA các em sẽ được học thêm các phương pháp CASIO liên quan đến các dạng toán xuất hiện trong bài thi ĐGNL của ĐHQGHN. Giúp các bạn ôn tập lại các dạng toán trọng tâm ở lớp 11 và các dạng toán mới ở lớp 12. Các phương pháp đã được admin chắt lọc thành các VIDEO hướng dẫn chi tiết cùng với đó là các buổi LIVE trước các đợt thi để tổng ôn và bổ trợ thêm cho các bạn nữa nhaa💕`
+        text: `Khi tham gia thêm khóa bổ trợ HSA các em sẽ được học thêm các phương pháp CASIO liên quan đến các dạng toán xuất hiện trong bài thi ĐGNL của ĐHQGHN. Giúp các bạn ôn tập lại các dạng toán trọng tâm ở lớp 11 và các dạng toán mới ở lớp 12. Các phương pháp đã được admin chắt lọc thành các VIDEO hướng dẫn chi tiết cùng với đó là các buổi LIVE trước các đợt thi để tổng ôn và bổ trợ thêm cho các bạn nữa nhaa💕`,
+      };
+
+      // Send an iamge
+      let response2 = getHSAInfoImage();
+      // Send text with button
+
+      let response3 = {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: "Khi đăng ký combo khóa học CASIO VD-VDC THPT + HSA 2K7 ngay trong tháng  9 này các bạn sẽ được giảm giá học phí từ 300k chỉ còn 200k cho cả 2 khóa học này thui nha. Hãy nhanh tay đăng ký để xuất phát sớm giành lợi thế trước các kì thi vô cùng quan trọng này nhaa😍",
+            buttons: [
+              {
+                type: "postback",
+                title: "Đăng ký khóa THPT",
+                payload: "REGISTER_THPT",
+              },
+              {
+                type: "postback",
+                title: "Đăng ký THPT+HSA",
+                payload: "REGISTER_COMBO",
+              },
+            ],
+          },
+        },
       };
 
       await callSendAPI(sender_psid, response1);
-      await sleep(1000);
+      await sleep(2000);
 
+      await callSendAPI(sender_psid, response2);
+      await sleep(2000);
 
+      await callSendAPI(sender_psid, response3);
+
+      resolve("done");
     } catch (e) {
       reject(e);
     }
   });
 };
-      
+
 export default {
   handleGerStarted,
-  callSendAPI,
   handleSendInfoCourseSingle,
-  getInfoCourseTemplateTHPT,
   handleSendInfoCourseCombo,
-
 };
