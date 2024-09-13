@@ -236,7 +236,7 @@ let getHSAInfoImage = () => {
     "attachment":{
       "type":"image", 
       "payload":{
-        "url":"https://bit.ly/hsaview", 
+        "url":"https://bit.ly/viewhsa", 
         "is_reusable":true
       }
     }
@@ -292,8 +292,98 @@ let handleSendInfoCourseCombo = (sender_psid) => {
   });
 };
 
+let getTHPTInfoImage1 = () => {
+  let response = {
+    "attachment":{
+      "type":"image", 
+      "payload":{
+        "url":"https://bit.ly/4gkR2sD", 
+        "is_reusable":true
+      }
+    }
+  };
+  return response;
+};
+
+let getTHPTInfoImage2 = () => {
+  let response = {
+    "attachment":{
+      "type":"image", 
+      "payload":{
+        "url":"https://bit.ly/3B2NRWk", 
+        "is_reusable":true
+      }
+    }
+  };
+  return response;
+};
+
+
+let handleSendDetailCourse = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Send text
+      let response1 = {
+        text: `Khi tham gia khoá học em sẽ được học toàn bộ các phương pháp CASIO qua video hướng dẫn cách bấm chi tiết. Cùng với đó các e sẽ được học live 1 buổi / tuần vào 22h tối thứ 6 hằng tuần trong group kín để tổng ôn các chuyên đề và luyện đề thi thử của các Trường, Sở. Khi LIVE ad sẽ chủ yếu tập trung giải các câu VD-VDC bằng CASIO (có kết hợp cả tư duy tự luận) nha.`,
+      };
+
+      // Send the image 1
+      let response2 = getTHPTInfoImage1();
+
+      // Send the image 2
+      let response3 = getTHPTInfoImage2();
+
+      // Send text 
+      let response4 = {
+        text: `Tất cả video và buổi live bổ trợ đều được record lại và gắn trong file tổng hợp để các em có thể tiện ôn tập nhaa 💪🏻`,
+      };
+
+      // Send text with button
+      let response5 = {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: "Em có thể xem qua thành tích của các anh chị 2K5 trong kì thi THPTQG năm 2023 ở link này nhaa: https://web.facebook.com/dobknhe/posts/277507708373083. Và thành tích của các anh chị 2K6 thì ở đây nhé: https://www.facebook.com/dobknhe/posts/pfbid0adhA5sWzDN3KrRfXAJT2gMv5yjTcuKmFZcKFocRurVRaj2LBtzx9XLbxQmYVENctl",
+            buttons: [
+              {
+                type: "postback",
+                title: "Đăng ký khóa THPT",
+                payload: "REGISTER_THPT",
+              },
+              {
+                type: "postback",
+                title: "Tham khảo khóa combo HSA",
+                payload: "HSA",
+              },
+            ],
+          },
+        },
+      };
+
+      await callSendAPI(sender_psid, response1);
+      await sleep(2000);
+
+      await callSendAPI(sender_psid, response2);
+      await sleep(2000);
+
+      await callSendAPI(sender_psid, response3);
+      await sleep(2000);
+
+      await callSendAPI(sender_psid, response4);
+      await sleep(2000);
+
+      await callSendAPI(sender_psid, response5);
+      
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 export default {
   handleGerStarted,
   handleSendInfoCourseSingle,
   handleSendInfoCourseCombo,
+  handleSendDetailCourse,
 };

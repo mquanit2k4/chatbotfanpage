@@ -153,6 +153,10 @@ async function handlePostback(sender_psid, received_postback) {
       break;
     case "HSA":
       await chatbotService.handleSendInfoCourseCombo(sender_psid);
+      break;
+    case "THPT_DETAIL":
+      await chatbotService.handleSendDetailCourse(sender_psid);
+      break;
     default:
       response = { text: `Oops! I don't know response with postback ${payload}` };
 
