@@ -35,7 +35,7 @@ let callSendAPI = async (sender_psid, response) => {
   );
 };
 
-let sendMarkReadMessage = (sender_psid) => {
+let sendTypingOn = (sender_psid) => {
     // Construct the message body
     let request_body = {
         recipient: {
@@ -244,8 +244,10 @@ let handleSendInfoCourseCombo = (sender_psid) => {
       await sleep(1000);
 
 
+    } catch (e) {
+      reject(e);
     }
-  }
+  });
 };
       
 export default {
@@ -254,5 +256,5 @@ export default {
   handleSendInfoCourseSingle,
   getInfoCourseTemplateTHPT,
   handleSendInfoCourseCombo,
-  getInfoCourseTemplateHSA,
+
 };
