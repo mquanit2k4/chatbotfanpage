@@ -233,13 +233,13 @@ let getInfoCourseTemplateTHPT = () => {
 
 let getHSAInfoImage = () => {
   let response = {
-    attachment: {
-      type: "image",
-      payload: {
-        url: "https://bit.ly/hsaview",
-        is_reusable: true,
-      },
-    },
+    "attachment":{
+      "type":"image", 
+      "payload":{
+        "url":"https://bit.ly/hsaview", 
+        "is_reusable":true
+      }
+    }
   };
   return response;
 };
