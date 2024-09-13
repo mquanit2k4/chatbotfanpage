@@ -6,7 +6,7 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 dotenv.config();
-let callSendAPI = (sender_psid, response) => {
+let callSendAPI = async (sender_psid, response) => {
   // Construct the message body
   let request_body = {
     recipient: {
@@ -15,6 +15,8 @@ let callSendAPI = (sender_psid, response) => {
     message: response,
   };
 
+  await sendMarkReadMessage(sender_psid);
+  await sendTypingOn(sender_psid);
   // Send the HTTP request to the Messenger Platform
   request(
     {
@@ -33,6 +35,58 @@ let callSendAPI = (sender_psid, response) => {
   );
 };
 
+let sendMarkReadMessage = (sender_psid) => {
+    // Construct the message body
+    let request_body = {
+        recipient: {
+            id: sender_psid,
+        },
+        sender_action: "typing_on",
+    };
+    request(
+        {
+          uri: "https://graph.facebook.com/v9.0/me/messages",
+          qs: { access_token: PAGE_ACCESS_TOKEN },
+          method: "POST",
+          json: request_body,
+        },
+        (err, res, body) => {
+          if (!err) {
+            console.log("sendTypingOn sent!");
+          } else {
+            console.error("Unable to send sendTypingOn:" + err);
+          }
+        }
+      );
+    };
+
+
+let sendMarkReadMessage = (sender_psid) => {
+        // Construct the message body
+        let request_body = {
+            recipient: {
+                id: sender_psid,
+            },
+            sender_action: "mark_seen",
+        };
+        request(
+            {
+              uri: "https://graph.facebook.com/v9.0/me/messages",
+              qs: { access_token: PAGE_ACCESS_TOKEN },
+              method: "POST",
+              json: request_body,
+            },
+            (err, res, body) => {
+              if (!err) {
+                console.log("sendMarkReadMessage sent!");
+              } else {
+                console.error("Unable to send sendMarkReadMessage:" + err);
+              }
+            }
+          );
+    };
+
+    
 let getUserName = (sender_psid) => {
   return new Promise((resolve, reject) => {
     // Send the HTTP request to the Messenger Platform
@@ -178,9 +232,27 @@ let getInfoCourseTemplateTHPT = () => {
   };
   return response;
 };
+
+let handleSendInfoCourseCombo = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response1 = {
+        text: `Khi tham gia thêm khóa bổ trợ HSA các em sẽ được học thêm các phương pháp CASIO liên quan đến các dạng toán xuất hiện trong bài thi ĐGNL của ĐHQGHN. Giúp các bạn ôn tập lại các dạng toán trọng tâm ở lớp 11 và các dạng toán mới ở lớp 12. Các phương pháp đã được admin chắt lọc thành các VIDEO hướng dẫn chi tiết cùng với đó là các buổi LIVE trước các đợt thi để tổng ôn và bổ trợ thêm cho các bạn nữa nhaa💕`
+      };
+
+      await callSendAPI(sender_psid, response1);
+      await sleep(1000);
+
+
+    }
+  }
+};
+      
 export default {
   handleGerStarted,
   callSendAPI,
   handleSendInfoCourseSingle,
   getInfoCourseTemplateTHPT,
+  handleSendInfoCourseCombo,
+  getInfoCourseTemplateHSA,
 };
