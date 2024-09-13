@@ -281,7 +281,7 @@ let handleSendInfoCourseCombo = (sender_psid) => {
       await sleep(2000);
 
       await callSendAPI(sender_psid, response2);
-      await sleep(2000);
+      await sleep(3000);
 
       await callSendAPI(sender_psid, response3);
 
@@ -353,7 +353,7 @@ let handleSendDetailCourse = (sender_psid) => {
               },
               {
                 type: "postback",
-                title: "Tham khảo khóa combo HSA",
+                title: "Tham khảo combo HSA",
                 payload: "HSA",
               },
             ],
@@ -381,9 +381,87 @@ let handleSendDetailCourse = (sender_psid) => {
     }
   });
 };
+
+let getBankInfoImage = () => {
+  let response = {
+    "attachment":{
+      "type":"image", 
+      "payload":{
+        "url":"https://bit.ly/3ZjBDCR", 
+        "is_reusable":true
+      }
+    }
+  };
+  return response;
+};
+
+let handleSendRegisterInfoTHPT = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Send text
+      let response1 = {
+        text: `Sau khi thực hiện xong các bước như like + share ở post https://www.facebook.com/dobknhe/posts/491015820355603 và gửi ảnh minh chứng cho page. Để đăng ký khóa CASIO VD-VDC THPT 2K7 em vui lòng chuyển khoản 150k vào STK admin để trên mã QR này và nhớ điền mã CODE khóa học "LDCK588" hoặc CODE giới thiệu (nếu được CTV giới thiệu) vào nhaa 😍`,
+      };
+
+      // Send an iamge
+      let response2 = getBankInfoImage();
+      // Send text with button
+
+      let response3 = {
+        text: `Sau khi chuyển khoản xong e nhớ gửi minh chứng chuyển khoản (bill) cho page để admin xác nhận lại. Sau đó sẽ có một link form gửi cho e để điền đầy đủ thông tin liên hệ và add em vào khóa học nhé 😍`,
+      };
+
+      await callSendAPI(sender_psid, response1);
+      await sleep(2000);
+
+      await callSendAPI(sender_psid, response2);
+      await sleep(3000);
+
+      await callSendAPI(sender_psid, response3);
+
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let handleSendRegisterInfoCombo = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Send text
+      let response1 = {
+        text: `Để đăng kí khóa CASIO VD-VDC THPT+HSA em vui lòng chuyển khoản 200k vào STK admin để trên mã QR này và nhớ điền mã CODE khóa học "LDCK588" hoặc CODE giới thiệu (nếu được CTV giới thiệu) vào nhaa 😍`,
+      };
+
+      // Send an iamge
+      let response2 = getBankInfoImage();
+      // Send text with button
+
+      let response3 = {
+        text: `Sau khi chuyển khoản xong e nhớ gửi minh chứng chuyển khoản (bill) cho page để admin xác nhận lại. Sau đó sẽ có một link form gửi cho e để điền đầy đủ thông tin liên hệ và add em vào khóa học nhé 😍`,
+      };
+
+      await callSendAPI(sender_psid, response1);
+      await sleep(2000);
+
+      await callSendAPI(sender_psid, response2);
+      await sleep(3000);
+
+      await callSendAPI(sender_psid, response3);
+
+      resolve("done");
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 export default {
   handleGerStarted,
   handleSendInfoCourseSingle,
   handleSendInfoCourseCombo,
   handleSendDetailCourse,
+  handleSendRegisterInfoTHPT,
+  handleSendRegisterInfoCombo,
 };

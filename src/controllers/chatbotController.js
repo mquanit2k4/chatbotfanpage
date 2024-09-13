@@ -69,14 +69,14 @@ function handleMessage(sender_psid, received_message) {
   // Checks if the message contains text
   // Check words
   if (received_message.text) {
-    if (received_message.text.toLowerCase() === "casio"){
-        // Create the payload for a basic text message, which
-    // will be added to the body of our request to the Send API
-    response =
-      // Nếu nhiều tin nhắn phải tạo mảng các tin nhắn
-      {
-        text: `Chào em, admin xin giới thiệu tổng quan về khóa CASIO VD-VDC THPT 2K7 đến em: Khóa học sẽ cung cấp cho các bạn tất cả các phương pháp bấm máy + cách tư duy bản chất để làm các dạng toán từ mức VD (vận dụng, mức 8+ THPTQG) đến VDC (vận dụng cao, mức 9+ THPTQG) ở tất cả các chương trong chương trình Toán 12 (theo chuẩn chương trình mới). Có VIDEO + FILE hướng dẫn chi tiết phương pháp và bài tập kèm theo để các bạn luyện tập và nắm vững phương pháp làm bài. Để biết thêm thông tin em có thể xem ở bài viết https://www.facebook.com/dobknhe/posts/491015820355603 này nha 💕`,
-      };
+    if (received_message.text.toLowerCase() === "casio") {
+      // Create the payload for a basic text message, which
+      // will be added to the body of our request to the Send API
+      response =
+        // Nếu nhiều tin nhắn phải tạo mảng các tin nhắn
+        {
+          text: `Chào em, admin xin giới thiệu tổng quan về khóa CASIO VD-VDC THPT 2K7 đến em: Khóa học sẽ cung cấp cho các bạn tất cả các phương pháp bấm máy + cách tư duy bản chất để làm các dạng toán từ mức VD (vận dụng, mức 8+ THPTQG) đến VDC (vận dụng cao, mức 9+ THPTQG) ở tất cả các chương trong chương trình Toán 12 (theo chuẩn chương trình mới). Có VIDEO + FILE hướng dẫn chi tiết phương pháp và bài tập kèm theo để các bạn luyện tập và nắm vững phương pháp làm bài. Để biết thêm thông tin em có thể xem ở bài viết https://www.facebook.com/dobknhe/posts/491015820355603 này nha 💕`,
+        };
       // {
       //   text: `Khi tham gia khoá học e không chỉ được học các phương pháp giải nhanh + CASIO các dạng bài trong đề thi THPTQG mà còn được ôn luyện các đề thi thử của Trường, Sở qua các buổi LIVE hằng tuần để phục vụ cho kì thi THPTQG 2025 luôn nha. Khoá này kéo dài đến lúc cb thi xong kì thi THPT luôn nhé 🥰`,
       // },
@@ -86,14 +86,12 @@ function handleMessage(sender_psid, received_message) {
       // {
       //   text: `Học phí của khóa hiện tại là 200k nhưng nếu em muốn nhận voucher giảm giá chỉ còn 150K thì làm theo các bước like và share trong post này https://www.facebook.com/dobknhe/posts/491015820355603 và cap lại màn hình gửi cho ad nhaa ❤️`,
       // },
-    
     } else {
       // Trả lời khi không phải từ khóa "casio"
       response = {
-        "text": `Bạn vừa gửi: "${received_message.text}". Tôi không chắc chắn về từ khóa này, bạn có thể thử lại!`
+        text: `Bạn vừa gửi: "${received_message.text}". Tôi không chắc chắn về từ khóa này, bạn có thể thử lại!`,
       };
     }
-    
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
     let attachment_url = received_message.attachments[0].payload.url;
@@ -157,15 +155,20 @@ async function handlePostback(sender_psid, received_postback) {
     case "THPT_DETAIL":
       await chatbotService.handleSendDetailCourse(sender_psid);
       break;
+    case "REGISTER_THPT":
+      await chatbotService.handleSendRegisterInfoTHPT(sender_psid);
+      break;
+    case "REGISTER_COMBO":
+      await chatbotService.handleSendRegisterInfoCombo(sender_psid);
+      break;
     default:
-      response = { text: `Oops! I don't know response with postback ${payload}` };
-
-}     
+      response = {
+        text: `Oops! I don't know response with postback ${payload}`,
+      };
+  }
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response); 
+  callSendAPI(sender_psid, response);
 }
-
-
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
@@ -174,7 +177,7 @@ function callSendAPI(sender_psid, response) {
     recipient: {
       id: sender_psid,
     },
-    message: response,  
+    message: response,
   };
 
   // Send the HTTP request to the Messenger Platform
